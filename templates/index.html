@@ -1,0 +1,44 @@
+<!--首页：展示现有课题+新增课题功能-->
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UFT-8">
+        <title>科研课题管理</title>
+        <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    </head>
+    <body>
+        <div class="container">
+
+            <!--页面标题-->
+            <h2>科研课题管理中心</h2>
+            
+            <!--新增课题表单-->
+            <form action="/add_project" method="post" class="form-inline">
+                课题名称：<input type="text" name="project_name" placeholder="请输入课题名称" required class="form-control">
+                课题负责人：<input type="text" name="researcher" placeholder="请输入课题负责人" required class="form-control">
+                课题备注：<input type="text" name="remark" placeholder="请输入课题备注（选填）" class="form-control">
+                <button type="submit" class="btn btn-primary">新增课题</button>
+            </form>
+            <hr>
+
+            <!--现有课题列表表格-->
+            <table class="table table-border">
+                <tr>
+                    <th>课题ID</th>
+                    <th>课题名称</th>
+                    <th>课题负责人</th>
+                    <th>操作</th>
+                </tr>
+                {% for p in projects %}
+                <tr>
+                    <td>{{ p[0] }}</td>
+                    <td>{{ p[1] }}</td>
+                    <td>{{ p[2] }}</td>
+                    <td><a href="/batch/{{ p[0] }}" class="btn btn-info btn-xs">查看实验批次</a></td>
+                </tr>
+                {% endfor %}
+            </table>
+
+        </div>
+    </body>
+</html>
