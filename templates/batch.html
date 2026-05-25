@@ -43,6 +43,37 @@
                 </tr>
                 {% endfor %}
             </table>
+            <hr>
+
+            <!--新增实验批次表单-->
+            <form action="/add_param" method="post" class="form-inline">
+                <input type="hidden" name="project_id" value="{{ project_id }}">
+
+                参数所属批次ID：<input type="number" name="batch_id" placeholder="请输入参数所属批次ID" required class="form-control">
+                参数名称：<input type="text" name="param_name" placeholder="请输入参数名称" required class="form-control">
+                参数值：<input type="text" name="param_value" placeholder="请输入参数值" class="form-control">
+                <button type="submit" class="btn btn-warning">新增实验参数</button>
+            </form>
+            <hr>
+
+            <!--现有实验参数列表-->
+            <h4>实验参数列表</h4>
+            <table class="table table-bordered">
+                <tr>
+                    <th>参数ID</th>
+                    <th>参数名称</th>
+                    <th>参数值</th>
+                    <th>所属批次ID</th>
+                </tr>
+                {% for p in params %}
+                <tr>
+                    <th>{{ p[0] }}</th>
+                    <th>{{ p[1] }}</th>
+                    <th>{{ p[2] }}</th>
+                    <th>{{ p[3] }}</th>
+                </tr>
+                {% endfor %}
+            </table>
 
         </div>
     </body>

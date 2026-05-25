@@ -45,7 +45,7 @@ def add_project():
 # 实验批次页面：展示某个课题的实验批次
 @app.route("/batch/<int:project_id>")
 def batch(project_id):
-    # 从数据库中查询该课题的名称和实验批次信息
+    # 从数据库中查询该课题的名称、实验批次信息和实验参数信息
     cur = mysql.connection.cursor()
     cur.execute(
         "SELECT project_name FROM projects WHERE project_id=%s",
@@ -57,13 +57,20 @@ def batch(project_id):
         (project_id,)
     )
     batches = cur.fetchall()
+    cur.execute(
+        "SELECT * FROM experiment_params WHERE batch_id IN (" \
+        "SELECT batch_id FROM experiment_batches WHERE project_id=%s)",
+        (project_id,)
+    )
+    params = cur.fetchall()
     cur.close()
-    # 利用课题 ID 、名称和实验批次信息渲染实验批次页面
+    # 利用课题 ID 、名称、实验批次信息和实验参数信息渲染实验批次页面
     return render_template(
         "batch.html",
         project_id=project_id,
         project_name=project_name[0],
-        batches=batches
+        batches=batches,
+        params=params
     )
 
 # 新增实验批次功能
@@ -84,6 +91,24 @@ def add_batch():
     cur.close()
     # 跳回实验批次页面
     return redirect(f"/batch/{project_id}")
+
+# 新增实验参数功能
+@app.route("/add_param", methods=['POST'])
+def add_param():
+    # 从实验批次页面的新增参数表单中获取用户输入的内容
+    batch_id = request.form['batch_id']
+    param_name = request.form['param_name']
+    param_value = request.form['param_value']
+    # 向数据库中添加新增的实验参数
+    cur = mysql.connection.cursor()
+    cur.execute(
+        "INSERT INTO experiment_params (batch_id, param_name, param_value) VALUES (%s, %s, %s)",
+        (batch_id, param_name, param_value)
+    )
+    mysql.connection.commit()
+    cur.close()
+    # 跳回实验批次页面
+    return redirect(f"/batch/{request.form['project_id']}")
 
 if __name__ == "__main__":
     app.run(debug=True)
