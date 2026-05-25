@@ -16,8 +16,34 @@
             <a href="/" class="btn btn-default">返回课题列表</a>
             <hr>
 
-            <!--实验批次列表（预留功能）-->
-            <p>V1.0 实验批次列表（预留功能）</p>
+            <!--新增实验批次表单-->
+            <form action="/add_batch" method="post" class="form-inline">
+                <input type="hidden" name="project_id" value="{{ project_id }}">
+
+                实验批次名称：<input type="text" name="batch_name" placeholder="请输入实验批次名称" required class="form-control">
+                实验日期：<input type="date" name="experiment_date" required class="form-control">
+                实验备注：<input type="text" name="remark" placeholder="请输入实验备注（选填）" class="form-control">
+                <button type="submit" class="btn btn-success">新增实验批次</button>
+            </form>
+            <hr>
+
+            <!--现有实验批次列表-->
+            <h4>实验批次列表</h4>
+            <table class="table table-bordered">
+                <tr>
+                    <th>批次ID</th>
+                    <th>批次名称</th>
+                    <th>实验日期</th>
+                </tr>
+                {% for b in batches %}
+                <tr>
+                    <th>{{ b[0] }}</th>
+                    <th>{{ b[1] }}</th>
+                    <th>{{ b[3] }}</th>
+                </tr>
+                {% endfor %}
+            </table>
+
         </div>
     </body>
 </html>

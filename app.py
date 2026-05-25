@@ -27,7 +27,7 @@ def index():
 # 新增课题功能
 @app.route("/add_project", methods=['POST'])
 def add_project():
-    # 从网页的新增课题表单中获取用户输入的内容
+    # 从首页的新增课题表单中获取用户输入的内容
     project_name = request.form['project_name']
     researcher = request.form['researcher']
     remark = request.form['remark']
@@ -65,6 +65,25 @@ def batch(project_id):
         project_name=project_name[0],
         batches=batches
     )
+
+# 新增实验批次功能
+@app.route("/add_batch", methods=['POST'])
+def add_batch():
+    # 从实验批次页面的新增批次表单中获取用户输入的内容
+    project_id = request.form['project_id']
+    batch_name = request.form['batch_name']
+    experiment_date = request.form['experiment_date']
+    remark = request.form['remark']
+    # 向数据库中添加新增的实验批次
+    cur = mysql.connection.cursor()
+    cur.execute(
+        "INSERT INTO experiment_batches (project_id, batch_name, experiment_date, remark) VALUES (%s, %s, %s, %s)",
+        (project_id, batch_name, experiment_date, remark)
+    )
+    mysql.connection.commit()
+    cur.close()
+    # 跳回实验批次页面
+    return redirect(f"/batch/{project_id}")
 
 if __name__ == "__main__":
     app.run(debug=True)
