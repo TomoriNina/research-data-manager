@@ -52,32 +52,25 @@ def add_project():
 # 实验批次页面：展示某个课题的实验批次
 @app.route("/batch/<int:project_id>")
 def batch(project_id):
-    # 从数据库中查询该课题的名称、实验批次信息和实验参数信息
+    # 从数据库中查询该课题的名称和实验批次信息
     cur = mysql.connection.cursor()
     cur.execute(
         "SELECT project_name FROM projects WHERE project_id=%s",
         (project_id,)
     )
-    project_name = cur.fetchone() # fetchall() 的返回值为一维元组
+    project_name = cur.fetchone() # fetchone() 的返回值为一维元组
     cur.execute(
         "SELECT * FROM experiment_batches WHERE project_id=%s",
         (project_id,)
     )
     batches = cur.fetchall()
-    cur.execute(
-        "SELECT * FROM experiment_params WHERE batch_id IN (" \
-        "SELECT batch_id FROM experiment_batches WHERE project_id=%s)",
-        (project_id,)
-    )
-    params = cur.fetchall()
     cur.close()
-    # 利用课题 ID 、名称、实验批次信息和实验参数信息渲染实验批次页面
+    # 利用课题 ID 、名称和实验批次信息渲染实验批次页面
     return render_template(
         "batch.html",
         project_id=project_id,
         project_name=project_name[0],
-        batches=batches,
-        params=params
+        batches=batches
     )
 
 # 新增实验批次功能
@@ -105,6 +98,30 @@ def add_batch():
     # 跳回实验批次页面
     return redirect(f"/batch/{project_id}")
 
+# 实验参数页面：展示某个实验批次的参数
+@app.route("/param/<int:batch_id>")
+def param(batch_id):
+    # 从数据库中查询该实验批次的名称和参数信息
+    cur = mysql.connection.cursor()
+    cur.execute(
+        "SELECT batch_name FROM experiment_batches WHERE batch_id=%s",
+        (batch_id,)
+    )
+    batch_name = cur.fetchone() # fetchall() 的返回值为一维元组
+    cur.execute(
+        "SELECT * FROM experiment_params WHERE batch_id=%s",
+        (batch_id,)
+    )
+    params = cur.fetchall()
+    cur.close()
+    # 利用实验批次 ID 、名称和参数信息渲染实验批次页面
+    return render_template(
+        "param.html",
+        batch_id=batch_id,
+        batch_name=batch_name[0],
+        params=params
+    )
+
 # 新增实验参数功能
 @app.route("/add_param", methods=['POST'])
 def add_param():
@@ -120,8 +137,8 @@ def add_param():
     )
     mysql.connection.commit()
     cur.close()
-    # 跳回实验批次页面
-    return redirect(f"/batch/{request.form['project_id']}")
+    # 跳回实验参数页面
+    return redirect(f"/param/{batch_id}")
 
 if __name__ == "__main__":
     app.run(debug=True)
