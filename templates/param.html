@@ -1,0 +1,47 @@
+<!--实验参数页面：展示某个实验批次的参数+新增参数功能-->
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8">
+        <title>实验参数管理</title>
+        <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    </head>
+    <body>
+        <div class="container">
+
+            <!--页面标题-->
+            <h2>当前实验批次：{{ batch_name }}</h2>
+
+            <!--返回实验批次列表按钮-->
+            <a href="javascript:history.back()" class="btn btn-default">返回实验批次列表</a>
+            <hr>
+
+            <!--新增实验参数表单-->
+            <form action="/add_param" method="post" class="form-inline">
+                <input type="hidden" name="batch_id" value="{{ batch_id }}">
+                参数名称：<input type="text" name="param_name" placeholder="请输入参数名称" required class="form-control">
+                参数值：<input type="text" name="param_value" placeholder="请输入参数值" required class="form-control">
+                <button type="submit" class="btn btn-warning">新增实验参数</button>
+            </form>
+            <hr>
+
+            <!--现有实验参数列表-->
+            <h4>实验参数列表</h4>
+            <table class="table table-bordered">
+                <tr>
+                    <th>参数ID</th>
+                    <th>参数名称</th>
+                    <th>参数值</th>
+                </tr>
+                {% for p in params %}
+                <tr>
+                    <td>{{ p[0] }}</td>
+                    <td>{{ p[1] }}</td>
+                    <td>{{ p[2] }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+
+        </div>
+    </body>
+</html>
