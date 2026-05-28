@@ -16,7 +16,8 @@
             <form action="/add_project" method="post" class="form-inline">
                 课题名称：<input type="text" name="project_name" placeholder="请输入课题名称" required class="form-control">
                 课题负责人：<input type="text" name="researcher" placeholder="请输入课题负责人" required class="form-control">
-                课题备注：<input type="text" name="remark" placeholder="请输入课题备注（选填）" class="form-control">
+                课题创建日期（不填则默认为当前日期）：<input type="date" name="create_date" class="form-control">
+                课题备注（选填）：<input type="text" name="remark" placeholder="请输入课题备注" class="form-control">
                 <button type="submit" class="btn btn-primary">新增课题</button>
             </form>
             <hr>
@@ -26,7 +27,9 @@
                 <tr>
                     <th>课题ID</th>
                     <th>课题名称</th>
-                    <th>课题负责人</th>
+                    <th>负责人</th>
+                    <th>创建时间</th>
+                    <th>备注</th>
                     <th>操作</th>
                 </tr>
                 {% for p in projects %}
@@ -34,6 +37,8 @@
                     <td>{{ p[0] }}</td>
                     <td>{{ p[1] }}</td>
                     <td>{{ p[2] }}</td>
+                    <td>{{ p[3] }}</td>
+                    <td>{{ p[4] }}</td>
                     <td><a href="/batch/{{ p[0] }}" class="btn btn-info btn-xs">查看实验批次</a></td>
                 </tr>
                 {% endfor %}

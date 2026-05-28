@@ -21,8 +21,8 @@
                 <input type="hidden" name="project_id" value="{{ project_id }}">
 
                 实验批次名称：<input type="text" name="batch_name" placeholder="请输入实验批次名称" required class="form-control">
-                实验日期：<input type="date" name="experiment_date" required class="form-control">
-                实验备注：<input type="text" name="remark" placeholder="请输入实验备注（选填）" class="form-control">
+                实验日期（不填则默认为当前日期）：<input type="date" name="experiment_date" class="form-control">
+                实验备注（选填）：<input type="text" name="remark" placeholder="请输入实验备注" class="form-control">
                 <button type="submit" class="btn btn-success">新增实验批次</button>
             </form>
             <hr>
@@ -34,12 +34,14 @@
                     <th>批次ID</th>
                     <th>批次名称</th>
                     <th>实验日期</th>
+                    <th>备注</th>
                 </tr>
                 {% for b in batches %}
                 <tr>
                     <th>{{ b[0] }}</th>
                     <th>{{ b[1] }}</th>
                     <th>{{ b[3] }}</th>
+                    <th>{{ b[4] }}</th>
                 </tr>
                 {% endfor %}
             </table>
@@ -67,10 +69,10 @@
                 </tr>
                 {% for p in params %}
                 <tr>
-                    <th>{{ p[0] }}</th>
-                    <th>{{ p[1] }}</th>
-                    <th>{{ p[2] }}</th>
-                    <th>{{ p[3] }}</th>
+                    <td>{{ p[0] }}</td>
+                    <td>{{ p[1] }}</td>
+                    <td>{{ p[2] }}</td>
+                    <td>{{ p[3] }}</td>
                 </tr>
                 {% endfor %}
             </table>

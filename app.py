@@ -30,13 +30,20 @@ def add_project():
     # 从首页的新增课题表单中获取用户输入的内容
     project_name = request.form['project_name']
     researcher = request.form['researcher']
+    create_date = request.form['create_date']
     remark = request.form['remark']
-    # 向数据库中添加新增的课题
+    # 若用户填写了课题创建日期，则正常向数据库中添加新增的课题，否则不插入日期字段以使 MySQL 使用默认日期
     cur = mysql.connection.cursor()
-    cur.execute(
-        "INSERT INTO projects (project_name, researcher, remark) VALUES(%s, %s, %s)",
-        (project_name, researcher, remark)
-    )
+    if create_date:
+        cur.execute(
+            "INSERT INTO projects (project_name, researcher, create_date, remark) VALUES (%s, %s, %s, %s)",
+            (project_name, researcher, create_date, remark)
+        )
+    else:
+        cur.execute(
+            "INSERT INTO projects (project_name, researcher, remark) VALUES (%s, %s, %s)",
+            (project_name, researcher, remark)
+        )
     mysql.connection.commit()
     cur.close()
     # 跳回首页
@@ -81,12 +88,18 @@ def add_batch():
     batch_name = request.form['batch_name']
     experiment_date = request.form['experiment_date']
     remark = request.form['remark']
-    # 向数据库中添加新增的实验批次
+    # 若用户填写了实验日期，则正常向数据库中添加新增的批次，否则不插入日期字段以使 MySQL 使用默认日期
     cur = mysql.connection.cursor()
-    cur.execute(
-        "INSERT INTO experiment_batches (project_id, batch_name, experiment_date, remark) VALUES (%s, %s, %s, %s)",
-        (project_id, batch_name, experiment_date, remark)
-    )
+    if experiment_date:
+        cur.execute(
+            "INSERT INTO experiment_batches (project_id, batch_name, experiment_date, remark) VALUES (%s, %s, %s, %s)",
+            (project_id, batch_name, experiment_date, remark)
+        )
+    else:
+        cur.execute(
+            "INSERT INTO experiment_batches (project_id, batch_name, remark) VALUES (%s, %s, %s)",
+            (project_id, batch_name, remark)
+        )
     mysql.connection.commit()
     cur.close()
     # 跳回实验批次页面
