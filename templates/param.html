@@ -13,7 +13,8 @@
             <h2>当前实验批次：{{ batch_name }}</h2>
 
             <!--返回实验批次列表按钮-->
-            <a href="javascript:history.back()" class="btn btn-default">返回实验批次列表</a>
+            <a href="/batch/{{ project_id }}" class="btn btn-default">返回实验批次列表</a>
+            <a href="/file/{{ batch_id }}" class="btn btn-danger">管理数据文件</a>
             <hr>
 
             <!--新增实验参数表单-->
