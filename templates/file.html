@@ -1,4 +1,4 @@
-<!--数据文件页面：展示某个实验批次的数据文件+上传数据文件功能-->
+<!--数据文件管理页面-->
 <!DOCTYPE html>
 <html lang="zh-CN">
     <head>
@@ -9,14 +9,12 @@
     <body>
         <div class="container">
 
-            <!--页面标题-->
             <h2>当前实验批次：{{ batch_name }} - 数据文件</h2>
 
-            <!--返回实验参数列表按钮-->
             <a href="/param/{{ batch_id }}" class="btn btn-default">返回实验参数列表</a>
             <hr>
 
-            <!--上传数据文件表单-->
+            <!--上传数据文件-->
             <form action="/upload_file" method="post" enctype="multipart/form-data" class="form-inline">
                 <input type="hidden" name="batch_id" value="{{ batch_id }}">
                 数据文件（不超过16MB）：<input type="file" name="file" required class="form-control">
@@ -24,21 +22,24 @@
             </form>
             <hr>
 
-            <!--现有数据文件列表-->
+            <!--现有数据文件-->
             <h4>已上传文件列表</h4>
             <table class="table table-bordered">
                 <tr>
                     <th>文件ID</th>
                     <th>文件名</th>
-                    <th>存储路径</th>
                     <th>版本</th>
+                    <th>操作</th>
                 </tr>
                 {% for f in files %}
                 <tr>
                     <td>{{ f[0] }}</td>
                     <td>{{ f[1] }}</td>
-                    <td>{{ f[2] }}</td>
                     <td>{{ f[3] }}</td>
+                    <td>
+                        <a href="/download_file/{{ f[0] }}" class="btn btn-link btn-xs">下载文件</a>
+                        <a href="/delete_file/{{ f[0] }}/{{ f[4] }}" onclick="return confirm('确定删除该文件吗？')" class="btn btn-danger btn-xs">删除文件</a>
+                    </td>
                 </tr>
                 {% endfor %}
             </table>

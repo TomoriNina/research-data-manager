@@ -1,4 +1,4 @@
-<!--首页：展示现有课题+新增课题功能-->
+<!--课题管理页面-->
 <!DOCTYPE html>
 <html lang="zh-CN">
     <head>
@@ -9,20 +9,19 @@
     <body>
         <div class="container">
 
-            <!--页面标题-->
             <h2>科研课题管理中心</h2>
             
-            <!--新增课题表单-->
+            <!--新增课题-->
             <form action="/add_project" method="post" class="form-inline">
                 课题名称：<input type="text" name="project_name" placeholder="请输入课题名称" required class="form-control">
                 课题负责人：<input type="text" name="researcher" placeholder="请输入课题负责人" required class="form-control">
                 课题创建日期（不填则默认为当前日期）：<input type="date" name="create_date" class="form-control">
                 课题备注（选填）：<input type="text" name="remark" placeholder="请输入课题备注" class="form-control">
-                <button type="submit" class="btn btn-primary">新增课题</button>
+                <button type="submit" class="btn btn-success">新增课题</button>
             </form>
             <hr>
 
-            <!--现有课题列表表格-->
+            <!--现有课题-->
             <table class="table table-border">
                 <tr>
                     <th>课题ID</th>
@@ -39,7 +38,11 @@
                     <td>{{ p[2] }}</td>
                     <td>{{ p[3] }}</td>
                     <td>{{ p[4] }}</td>
-                    <td><a href="/batch/{{ p[0] }}" class="btn btn-info btn-xs">查看实验批次</a></td>
+                    <td>
+                        <a href="/batch/{{ p[0] }}" class="btn btn-info btn-xs">查看实验批次</a>
+                        <a href="/edit_project/{{ p[0] }}" class="btn btn-warning btn-xs">编辑课题信息</a>
+                        <a href="/delete_project/{{ p[0] }}" onclick="return confirm('确定删除该课题吗？')" class="btn btn-danger btn-xs">删除课题</a>
+                    </td>
                 </tr>
                 {% endfor %}
             </table>

@@ -1,0 +1,18 @@
+<!--实验参数编辑页面-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    </head>
+    <body>
+    <div class="container"><h2>编辑参数</h2><hr>
+    <form action="/update_param" method="post" class="form-inline">
+        <input type="hidden" name="param_id" value="{{ param[0] }}">
+        <input type="hidden" name="batch_id" value="{{ param[3] }}">
+        参数名称：<input type="text" name="param_name" value="{{ param[1] }}" class="form-control">
+        参数值：<input type="text" name="param_value" value="{{ param[2] }}" class="form-control">
+        <button type="submit" class="btn btn-primary">保存</button>
+    </form></div>
+    </body>
+</html>

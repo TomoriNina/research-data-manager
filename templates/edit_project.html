@@ -1,0 +1,19 @@
+<!--课题编辑页面-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    </head>
+    <body>
+    <div class="container"><h2>编辑课题</h2><hr>
+    <form action="/update_project" method="post" class="form-inline">
+        <input type="hidden" name="project_id" value="{{ project[0] }}">
+        课题名称：<input type="text" name="project_name" value="{{ project[1] }}" class="form-control">
+        课题负责人：<input type="text" name="researcher" value="{{ project[2] }}" class="form-control">
+        课题创建日期（不填则默认为当前日期）：<input type="date" name="create_date" value="{{ project[3] }}" class="form-control">
+        课题备注（选填）：<input type="text" name="remark" value="{{ project[4] }}" class="form-control">
+        <button type="submit" class="btn btn-primary">保存</button>
+    </form></div>
+    </body>
+</html>

@@ -1,0 +1,19 @@
+<!--实验批次编辑页面-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    </head>
+    <body>
+    <div class="container"><h2>编辑批次</h2><hr>
+    <form action="/update_batch" method="post" class="form-inline">
+        <input type="hidden" name="batch_id" value="{{ batch[0] }}">
+        <input type="hidden" name="project_id" value="{{ batch[2] }}">
+        实验批次名称：<input type="text" name="batch_name" value="{{ batch[1] }}" class="form-control">
+        实验日期（不填则默认为当前日期）：<input type="date" name="experiment_date" value="{{ batch[3] }}" class="form-control">
+        实验备注（选填）：<input type="text" name="remark" value="{{ batch[4] }}" class="form-control">
+        <button type="submit" class="btn btn-primary">保存</button>
+    </form></div>
+    </body>
+</html>
